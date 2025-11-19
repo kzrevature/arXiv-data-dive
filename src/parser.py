@@ -1,6 +1,6 @@
-from .article import Article
-
 from xml.etree import ElementTree as ET
+
+from .article import Article
 
 
 def parse_entry_to_article(node: ET.Element):
