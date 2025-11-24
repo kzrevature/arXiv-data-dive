@@ -1,10 +1,156 @@
-from parser import parse_arxiv_url_to_id
+from parser import (
+    parse_arxiv_url_to_id,
+    validate_arxiv_id_new_fmt,
+    validate_arxiv_id_old_fmt,
+)
+
+import pytest
 
 
-def test_parse_arxiv_url_to_id():
-    URL = "http://arxiv.org/abs/sample-category/33333v1"
-    EXPECTED_ID = "33333"
+def test_validate_arxiv_id_old_fmt_accepts_good_id():
+    good_id = "math/1122334"
+    expected = True
 
-    actual_id = parse_arxiv_url_to_id(URL)
+    actual = validate_arxiv_id_old_fmt(good_id)
 
-    assert EXPECTED_ID == actual_id
+    assert expected == actual
+
+
+def test_validate_arxiv_id_old_fmt_rejects_no_slash():
+    bad_id = "math.1122334"
+    expected = False
+
+    actual = validate_arxiv_id_old_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_old_fmt_rejects_multiple_slash():
+    bad_id = "math/1122/334"
+    expected = False
+
+    actual = validate_arxiv_id_old_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_old_fmt_rejects_nonnumeric_second_section():
+    bad_id = "math/1122abc"
+    expected = False
+
+    actual = validate_arxiv_id_old_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_old_fmt_rejects_bad_length():
+    bad_id = "math/11223344"
+    expected = False
+
+    actual = validate_arxiv_id_old_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_new_fmt_accepts_good_id():
+    good_id = "1122.4567"
+    expected = True
+
+    actual = validate_arxiv_id_new_fmt(good_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_new_fmt_rejects_no_period():
+    bad_id = "11224567"
+    expected = False
+
+    actual = validate_arxiv_id_new_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_new_fmt_rejects_multiple_period():
+    bad_id = "11.22.4567"
+    expected = False
+
+    actual = validate_arxiv_id_new_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_new_fmt_rejects_incorrect_length_for_date_section():
+    bad_id = "111.4567"
+    expected = False
+
+    actual = validate_arxiv_id_new_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_new_fmt_rejects_nonnumeric_date_section():
+    bad_id = "DEC9.4567"
+    expected = False
+
+    actual = validate_arxiv_id_new_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_new_fmt_rejects_incorrect_length_for_numbering_section():
+    bad_id = "1122.456789"
+    expected = False
+
+    actual = validate_arxiv_id_new_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_validate_arxiv_id_new_fmt_rejects_nonnumeric_numbering_section():
+    bad_id = "1122.45FF"
+    expected = False
+
+    actual = validate_arxiv_id_new_fmt(bad_id)
+
+    assert expected == actual
+
+
+def test_parse_arxiv_url_to_id_extracts_valid_url_old_fmt():
+    good_url = "http://arxiv.org/abs/cat/1123999"
+    expected = "cat/1123999"
+
+    actual = parse_arxiv_url_to_id(good_url)
+
+    assert expected == actual
+
+
+def test_parse_arxiv_url_to_id_extracts_valid_url_new_fmt():
+    good_url = "http://arxiv.org/abs/1122.3344"
+    expected = "1122.3344"
+
+    actual = parse_arxiv_url_to_id(good_url)
+
+    assert expected == actual
+
+
+def test_parse_arxiv_url_to_id_accepts_extracts_url_stripping_version_number():
+    good_url = "http://arxiv.org/abs/1122.3344v55"
+    expected = "1122.3344"
+    parse_arxiv_url_to_id(good_url)
+
+    actual = parse_arxiv_url_to_id(good_url)
+    assert expected == actual
+
+
+def test_parse_arxiv_url_to_id_rejects_bad_prefix():
+    bad_url = "http://NOT-arxiv.org/abs/1122.3344v1"
+
+    with pytest.raises(ValueError):
+        parse_arxiv_url_to_id(bad_url)
+
+
+def test_parse_arxiv_url_to_id_rejects_bad_id():
+    bad_url = "http://arxiv.org/abs/112233.445566v7"
+
+    with pytest.raises(ValueError):
+        parse_arxiv_url_to_id(bad_url)
