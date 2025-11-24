@@ -1,12 +1,13 @@
 import logging
 from logging import WARN
-from parser import (
+
+import pytest
+
+from arxiv.parser import (
     parse_arxiv_url_to_id,
     validate_arxiv_id_new_fmt,
     validate_arxiv_id_old_fmt,
 )
-
-import pytest
 
 
 def test_validate_arxiv_id_old_fmt_accepts_good_id():
