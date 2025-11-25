@@ -1,13 +1,20 @@
 import logging
+import xml.etree.ElementTree as ET
 from logging import WARN
 
 import pytest
 
 from arxiv.parser import (
+    extract_article_entries,
     parse_arxiv_url_to_id,
     validate_arxiv_id_new_fmt,
     validate_arxiv_id_old_fmt,
 )
+
+
+@pytest.fixture()
+def sample_arxiv_xml_root():
+    return ET.parse("test/fixtures/sample.xml").getroot()
 
 
 def test_validate_arxiv_id_old_fmt_accepts_good_id():
@@ -163,3 +170,8 @@ def test_parse_arxiv_url_to_id_rejects_bad_id(caplog):
 
     assert len(caplog.records) == 1
     assert caplog.records[0].levelno == logging.WARN
+
+
+def test_extract_article_entries(sample_arxiv_xml_root):
+    filter_res = extract_article_entries(sample_arxiv_xml_root)
+    assert all(el.tag.endswith("entry") for el in filter_res)

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/R5FY/PcEVZC4eQILbDfvV80uu+U</id>
+  <title>arXiv Query: search_query=submittedDate:"202511190000 TO 202511200000"&amp;id_list=&amp;start=0&amp;max_results=3</title>
+  <updated>2025-11-25T16:31:14Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=submittedDate:%22202511190000+TO+202511200000%22&amp;start=0&amp;max_results=3&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>3</opensearch:itemsPerPage>
+  <opensearch:totalResults>931</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2511.15288v1</id>
+    <title>Edge-Centric Relational Reasoning for 3D Scene Graph Prediction</title>
+    <updated>2025-11-19T09:53:56Z</updated>
+    <link href="https://arxiv.org/abs/2511.15288v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.15288v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>3D scene graph prediction aims to abstract complex 3D environments into structured graphs consisting of objects and their pairwise relationships. Existing approaches typically adopt object-centric graph neural networks, where relation edge features are iteratively updated by aggregating messages from connected object nodes. However, this design inherently restricts relation representations to pairwise object context, making it difficult to capture high-order relational dependencies that are essential for accurate relation prediction. To address this limitation, we propose a Link-guided Edge-centric relational reasoning framework with Object-aware fusion, namely LEO, which enables progressive reasoning from relation-level context to object-level understanding. Specifically, LEO first predicts potential links between object pairs to suppress irrelevant edges, and then transforms the original scene graph into a line graph where each relation is treated as a node. A line graph neural network is applied to perform edge-centric relational reasoning to capture inter-relation context. The enriched relation features are subsequently integrated into the original object-centric graph to enhance object-level reasoning and improve relation prediction. Our framework is model-agnostic and can be integrated with any existing object-centric method. Experiments on the 3DSSG dataset with two competitive baselines show consistent improvements, highlighting the effectiveness of our edge-to-object reasoning paradigm.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-11-19T09:53:56Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yanni Ma</name>
+    </author>
+    <author>
+      <name>Hao Liu</name>
+    </author>
+    <author>
+      <name>Yulan Guo</name>
+    </author>
+    <author>
+      <name>Theo Gevers</name>
+    </author>
+    <author>
+      <name>Martin R. Oswald</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.15108v1</id>
+    <title>Position Optimization for Two-layer Movable Antenna Systems</title>
+    <updated>2025-11-19T04:31:49Z</updated>
+    <link href="https://arxiv.org/abs/2511.15108v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.15108v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Movable antenna (MA) is a promising technology for improving the performance of wireless communication systems by providing new degrees-of-freedom (DoFs) in antenna position optimization. However, existing works on MA systems have mostly considered element-wise single-layer MA (SL-MA) arrays, where all the MAs move within the given movable region, hence inevitably incurring high control complexity and hardware cost in practice. To address this issue, we propose in this letter a new two-layer MA array (TL-MA), where the positions of MAs are jointly determined by the large-scale movement of multiple subarrays and the small-scale fine-tuning of per-subarray MAs. In particular, an optimization problem is formulated to maximize the sum-rate of the TL-MA-aided communication system by jointly optimizing the subarray-positions, per-subarray (relative) MA positions, and receive beamforming. To solve this non-convex problem, we propose an alternating optimization (AO)-based particle swarm optimization (PSO) algorithm, which alternately optimizes the positions of subarrays and per-subarray MAs, given the optimal receive beamforming. Numerical results verify that the proposed TL-MA significantly reduces the sum-displacement of MA motors (i.e., the total moving distances of all motors) of element-wise SL-MA, while achieving comparable rate performance.</summary>
+    <category term="eess.SP" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.IT" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-11-19T04:31:49Z</published>
+    <arxiv:primary_category term="eess.SP"/>
+    <author>
+      <name>Liujia Yao</name>
+    </author>
+    <author>
+      <name>Changsheng You</name>
+    </author>
+    <author>
+      <name>Chao Zhou</name>
+    </author>
+    <author>
+      <name>Beixiong Zheng</name>
+    </author>
+    <author>
+      <name>Weidong Mei</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.15842v1</id>
+    <title>Preimages for Zémor's Cayley hash function</title>
+    <updated>2025-11-19T20:03:01Z</updated>
+    <link href="https://arxiv.org/abs/2511.15842v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.15842v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In 1991, Zémor proposed a hash function which provides data security using the difficulty of writing a given matrix as a product of generator matrices. Tillich and Zémor subsequently provided an algorithm finding short collisions for this hash function.
+  We extend this collision attack to a stronger preimage attack, under the assumption that we can factor large integers efficiently. The Euclidean algorithm will factor a $2\times 2$ matrix with non-negative integer entries and determinant $1$. This factorization is short if the matrix entries are all roughly the same size. Therefore, to factor a matrix we need only find an integer matrix with the listed properties which is congruent to the target matrix modulo $p$; finding such an integer matrix is equivalent to solving a Diophantine equation. We give an algorithm to solve this equation.</summary>
+    <category term="math.GR" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-11-19T20:03:01Z</published>
+    <arxiv:comment>8 pages, 1 figure, comments welcome</arxiv:comment>
+    <arxiv:primary_category term="math.GR"/>
+    <author>
+      <name>Eilidh McKemmie</name>
+    </author>
+    <author>
+      <name>Amol Srivastava</name>
+    </author>
+  </entry>
+</feed>

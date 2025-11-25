@@ -6,6 +6,17 @@ from article import Article
 
 LOG = logging.getLogger()
 
+# namespace which prefixes every element in the xml file
+XML_NS = "{http://www.w3.org/2005/Atom}"
+
+
+def extract_article_entries(xml_result: ET.Element) -> list[ET.Element]:
+    """
+    Takes as input the root XML element of an arXiv API response and returns
+    a list of children which represent arXiv articles.
+    """
+    return xml_result.findall(f"{XML_NS}entry")
+
 
 def parse_entry_to_article(node: ET.Element):
     for child in node:

@@ -31,7 +31,9 @@ def build_arxiv_query_url(start_time: datetime, end_time: datetime) -> str:
     )
 
 
-def fetch_articles_from_arxiv_api(start_time: datetime, end_time: datetime) -> ET:
+def fetch_articles_from_arxiv_api(
+    start_time: datetime, end_time: datetime
+) -> ET.Element:
     """
     Fetches a list of article entries from the arXiv API date
     which were last updated within the given time range.
