@@ -13,7 +13,6 @@ class Connection(ABC):
         Runs the given query string.
         Keyword arguments can be supplied for parameterized queries.
         """
-        pass
 
     @abstractmethod
     def close(self):
