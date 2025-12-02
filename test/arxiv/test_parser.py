@@ -1,17 +1,21 @@
 import logging
 import xml.etree.ElementTree as ET
-from logging import WARN
 
 import pytest
 
 from arxiv.parser import (
+    XML_NS,
+    XML_TIME_FMT,
     extract_article_entries,
+    extract_total_results,
     parse_arxiv_url_to_id,
+    parse_entry_to_article,
     validate_arxiv_id_new_fmt,
     validate_arxiv_id_old_fmt,
 )
 
 
+# this fixture is linked to the contents of test/fixtures/sample.xml
 @pytest.fixture()
 def sample_arxiv_xml_root():
     return ET.parse("test/fixtures/sample.xml").getroot()
@@ -172,6 +176,38 @@ def test_parse_arxiv_url_to_id_rejects_bad_id(caplog):
     assert caplog.records[0].levelno == logging.WARN
 
 
+def test_extract_total_results(sample_arxiv_xml_root):
+    total = extract_total_results(sample_arxiv_xml_root)
+    assert any(
+        el.text == str(total) and el.tag.endswith("totalResults")
+        for el in sample_arxiv_xml_root
+    )
+
+
 def test_extract_article_entries(sample_arxiv_xml_root):
     filter_res = extract_article_entries(sample_arxiv_xml_root)
     assert all(el.tag.endswith("entry") for el in filter_res)
+
+
+def test_parse_entry_to_article_success(sample_arxiv_xml_root):
+    sample_arxiv_xml_entry = sample_arxiv_xml_root.find(f"{XML_NS}entry")
+    article = parse_entry_to_article(sample_arxiv_xml_entry).val
+
+    assert any(
+        article.id == parse_arxiv_url_to_id(el.text) and el.tag.endswith("id")
+        for el in sample_arxiv_xml_entry
+    )
+    assert any(
+        article.title == el.text and el.tag.endswith("title")
+        for el in sample_arxiv_xml_entry
+    )
+    assert any(
+        article.created_at.strftime(XML_TIME_FMT) == el.text
+        and el.tag.endswith("published")
+        for el in sample_arxiv_xml_entry
+    )
+    assert any(
+        article.updated_at.strftime(XML_TIME_FMT) == el.text
+        and el.tag.endswith("updated")
+        for el in sample_arxiv_xml_entry
+    )

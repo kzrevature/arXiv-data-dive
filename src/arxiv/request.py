@@ -6,13 +6,26 @@ import requests
 
 LOG = logging.getLogger()
 
+# hardcoded cap on the max_results param in API queries
+# the API can technically support up to 30000 but smaller values run faster and are easier to test
+API_RESULTS_CAP = 1000
 
-def build_arxiv_query_url(start_time: datetime, end_time: datetime) -> str:
+
+def build_arxiv_query_url(
+    start_time: datetime,
+    end_time: datetime,
+    max_results: int,
+) -> str:
     """
     Builds a valid query url targeting the arXiv API.
 
     API manual: https://info.arxiv.org/help/api/user-manual.html
     """
+
+    if max_results > API_RESULTS_CAP:
+        raise ValueError(
+            f"max_results value of {max_results} exceeds the maximum {API_RESULTS_CAP}"
+        )
 
     arxiv_api_base_url = "http://export.arxiv.org/api/query"
 
@@ -26,13 +39,15 @@ def build_arxiv_query_url(start_time: datetime, end_time: datetime) -> str:
         f"{arxiv_api_base_url}?"
         "search_query=lastUpdatedDate:"
         f"[{start_time.strftime(time_fmt)}+TO+{end_time.strftime(time_fmt)}]"
-        "&max_results=1000"
+        f"&max_results={max_results}"
         "&sortBy=submittedDate&sortOrder=ascending"
     )
 
 
 def fetch_articles_from_arxiv_api(
-    start_time: datetime, end_time: datetime
+    start_time: datetime,
+    end_time: datetime,
+    max_results: int = API_RESULTS_CAP,
 ) -> ET.Element:
     """
     Fetches a list of article entries from the arXiv API date
@@ -40,7 +55,7 @@ def fetch_articles_from_arxiv_api(
 
     Returns the resulting XML.
     """
-    query_url = build_arxiv_query_url(start_time, end_time)
+    query_url = build_arxiv_query_url(start_time, end_time, max_results)
     response = requests.get(query_url)
 
     return ET.fromstring(response.text)

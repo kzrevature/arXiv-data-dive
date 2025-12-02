@@ -1,5 +1,7 @@
 import logging
 import re
+from datetime import datetime
+from typing import NamedTuple
 from xml.etree import ElementTree as ET
 
 from article import Article
@@ -8,29 +10,59 @@ LOG = logging.getLogger()
 
 # namespace which prefixes every element in the xml file
 XML_NS = "{http://www.w3.org/2005/Atom}"
+XML_TIME_FMT = "%Y-%m-%dT%H:%M:%SZ"
+
+# tuple representing the possible outcomes when parsing xml to an articles
+# val will be None on an unsuccessful parse (ok=False)
+ArticleParseResult = NamedTuple(
+    "ArticleParseResult",
+    [
+        ("ok", bool),
+        ("val", Article | None),
+        ("url", str),
+    ],
+)
 
 
-def extract_article_entries(xml_result: ET.Element) -> list[ET.Element]:
+def extract_article_entries(xml_response: ET.Element) -> list[ET.Element]:
     """
     Takes as input the root XML element of an arXiv API response and returns
     a list of children which represent arXiv articles.
     """
-    return xml_result.findall(f"{XML_NS}entry")
+    return xml_response.findall(f"{XML_NS}entry")
 
 
-def parse_entry_to_article(node: ET.Element):
+def extract_total_results(xml_response: ET.Element) -> int:
+    """
+    Takes as input the root XML element of an arXiv API response and returns
+    the total number of matching articles matched
+    """
+    for child in xml_response:
+        if child.tag.endswith("totalResults"):
+            return int(child.text)
+
+
+def parse_entry_to_article(node: ET.Element) -> ArticleParseResult:
+    """
+    Takes as input an XML <entry> element representing an arXiv article, and extracts
+    the relevant fields into an Article object.
+    """
     for child in node:
         if child.tag.endswith("id"):
             url = child.text
-            id_ = parse_arxiv_url_to_id(url)
+            try:
+                id_ = parse_arxiv_url_to_id(url)
+            except ValueError:
+                LOG.warning(f"failed to parse arXiv entry at url: {url}")
+                return ArticleParseResult(False, None, url)
         elif child.tag.endswith("title"):
             title = child.text
         elif child.tag.endswith("published"):
-            created_at = child.text
+            created_at = datetime.strptime(child.text, XML_TIME_FMT)
         elif child.tag.endswith("updated"):
-            updated_at = child.text
+            updated_at = datetime.strptime(child.text, XML_TIME_FMT)
 
-    return Article(id_, title, created_at, updated_at)
+    return ArticleParseResult(True, Article(id_, title, created_at, updated_at), url)
 
 
 def validate_arxiv_id_old_fmt(id_: str) -> bool:
