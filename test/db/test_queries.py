@@ -13,6 +13,7 @@ from db.queries import (
     drop_article_table,
     insert_article,
     select_article,
+    update_article,
 )
 
 
@@ -125,3 +126,53 @@ def test_select_article_returns_none_on_nohit(conn):
     create_article_table(conn)
     result = select_article(conn, "nonexistent_id")
     assert result is None
+
+
+def test_update_article_all_fields(conn):
+    id_ = "nah_ID_win"
+    title = "Cool Title"
+    created_at = datetime(2000, 1, 1)
+    updated_at = datetime(2000, 1, 1)
+
+    new_title = "Warm Title"
+    new_created_at = datetime(2002, 1, 1)
+    new_updated_at = datetime(2002, 1, 1)
+
+    create_article_table(conn)
+    insert_article(conn, Article(id_, title, created_at, updated_at))
+    update_article(
+        conn,
+        id_,
+        title=new_title,
+        created_at=new_created_at,
+        updated_at=new_updated_at,
+    )
+    updated_article = select_article(conn, id_)
+
+    assert updated_article.id == id_
+    assert updated_article.title == new_title
+    assert updated_article.created_at == new_created_at
+    assert updated_article.updated_at == new_updated_at
+
+
+def test_update_article_no_fields(conn):
+    id_ = "nah_ID_lose"
+    title = "Lame Title"
+    created_at = datetime(1999, 1, 1)
+    updated_at = datetime(1999, 1, 1)
+
+    create_article_table(conn)
+    insert_article(conn, Article(id_, title, created_at, updated_at))
+    update_article(conn, id_)
+    updated_article = select_article(conn, id_)
+
+    assert updated_article.id == id_
+    assert updated_article.title == title
+    assert updated_article.created_at == created_at
+    assert updated_article.updated_at == updated_at
+
+
+def test_update_article_fails_on_nohit(conn):
+    create_article_table(conn)
+    with pytest.raises(ValueError):
+        update_article(conn, "id404", title="Fascinating")

@@ -1,3 +1,5 @@
+import datetime
+
 from article import Article
 from db.connection import Connection
 
@@ -67,7 +69,7 @@ def select_article(conn: Connection, id_: str) -> Article | None:
     Selects a row from the Article table by its ID.
     """
 
-    query_str = "SELECT id, title, created_at, updated_at FROM Article WHERE id=(:id)"
+    query_str = "SELECT id, title, created_at, updated_at FROM Article WHERE id=:id"
 
     res = conn.run(query_str, id=id_)
 
@@ -80,3 +82,39 @@ def select_article(conn: Connection, id_: str) -> Article | None:
         )
     else:
         return None
+
+
+def update_article(
+    conn: Connection,
+    id_: str,
+    title: str = None,
+    created_at: datetime = None,
+    updated_at: datetime = None,
+):
+    """
+    Updates a row in the Article table with a new set of parameters.
+    """
+
+    # make sure article exists before editing
+    article = select_article(conn, id_)
+    if article is None:
+        raise ValueError(f"cannot update article with id {id_}: does not exist")
+
+    if title is None:
+        title = article.title
+    if created_at is None:
+        created_at = article.created_at
+    if updated_at is None:
+        updated_at = article.updated_at
+
+    query_str = (
+        "UPDATE Article SET title=:title, created_at=:created_at, updated_at=:updated_at "
+        "WHERE id=:id"
+    )
+    conn.run(
+        query_str,
+        id=id_,
+        title=title,
+        created_at=created_at,
+        updated_at=updated_at,
+    )
