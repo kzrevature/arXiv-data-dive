@@ -13,6 +13,7 @@ from db.queries import (
     drop_article_table,
     insert_article,
     select_article,
+    select_most_recent_updated_at,
     update_article,
 )
 
@@ -126,6 +127,48 @@ def test_select_article_returns_none_on_nohit(conn):
     create_article_table(conn)
     result = select_article(conn, "nonexistent_id")
     assert result is None
+
+
+def test_select_most_recent_updated_at(conn):
+    id_1 = "sample_id_1"
+    title_1 = "Sample Title 1"
+    created_at_1 = datetime(2000, 1, 1)
+    updated_at_1 = datetime(2000, 1, 1)
+    arti_1 = Article(id_1, title_1, created_at_1, updated_at_1)
+    id_2 = "sample_id_2"
+    title_2 = "Sample Title 2"
+    created_at_2 = datetime(2000, 1, 1)
+    updated_at_2 = datetime(2000, 1, 17)
+    arti_2 = Article(id_2, title_2, created_at_2, updated_at_2)
+    id_3 = "sample_id_3"
+    title_3 = "Sample Title 3"
+    created_at_3 = datetime(2000, 1, 17)
+    updated_at_3 = datetime(2000, 1, 29)  # newest updated_at date
+    arti_3 = Article(id_3, title_3, created_at_3, updated_at_3)
+    id_4 = "sample_id_4"
+    title_4 = "Sample Title 4"
+    created_at_4 = datetime(2000, 1, 23)
+    updated_at_4 = datetime(2000, 1, 23)
+    arti_4 = Article(id_4, title_4, created_at_4, updated_at_4)
+
+    expected = datetime(2000, 1, 29)  # newest updated_at date
+
+    create_article_table(conn)
+    insert_article(conn, arti_1)
+    insert_article(conn, arti_2)
+    insert_article(conn, arti_3)
+    insert_article(conn, arti_4)
+
+    actual = select_most_recent_updated_at(conn)
+
+    assert actual == expected
+
+
+def test_select_most_recent_updated_at_returns_none_if_table_is_empty(conn):
+    create_article_table(conn)
+
+    res = select_most_recent_updated_at(conn)
+    assert res is None
 
 
 def test_update_article_all_fields(conn):

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from article import Article
 from db.connection import Connection
@@ -82,6 +82,18 @@ def select_article(conn: Connection, id_: str) -> Article | None:
         )
     else:
         return None
+
+
+def select_most_recent_updated_at(conn: Connection) -> datetime | None:
+    """
+    Retrieves the most recent value of update_at from the Article table.
+    """
+
+    query_str = "SELECT MAX(updated_at) FROM Article"
+
+    res = conn.run(query_str)
+
+    return res[0][0] if len(res) > 0 else None
 
 
 def update_article(
