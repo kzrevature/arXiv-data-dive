@@ -33,7 +33,7 @@ def test_build_arxiv_query_url_builds_correct_url():
 
     expected = (
         "http://export.arxiv.org/api/query?search_query=lastUpdatedDate:"
-        "[202501010000+TO+202502012233]&max_results=777&sortBy=submittedDate&sortOrder=ascending"
+        "[202501010000+TO+202502012233]&max_results=777&sortBy=lastUpdatedDate&sortOrder=ascending"
     )
 
     actual = build_arxiv_query_url(start_time, end_time, 777)

@@ -40,7 +40,7 @@ def build_arxiv_query_url(
         "search_query=lastUpdatedDate:"
         f"[{start_time.strftime(time_fmt)}+TO+{end_time.strftime(time_fmt)}]"
         f"&max_results={max_results}"
-        "&sortBy=submittedDate&sortOrder=ascending"
+        "&sortBy=lastUpdatedDate&sortOrder=ascending"
     )
 
 
