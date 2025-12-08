@@ -10,8 +10,10 @@ from db.connection import Pg8000Connection
 from db.queries import (
     PG_TIME_FMT,
     create_article_table,
+    create_category_table,
     drop_article_table,
     insert_article,
+    insert_categories,
     select_article,
     select_most_recent_updated_at,
     update_article,
@@ -219,3 +221,54 @@ def test_update_article_fails_on_nohit(conn):
     create_article_table(conn)
     with pytest.raises(ValueError):
         update_article(conn, "id404", title="Fascinating")
+
+
+def test_create_category_table(conn):
+    expected = []
+
+    create_category_table(conn)
+
+    actual = conn.run("SELECT * FROM Category;")
+    assert expected == actual
+
+
+def test_create_category_table_noops_if_exists(conn):
+    create_category_table(conn)
+
+    # does not raise an exception
+    create_category_table(conn)
+
+
+def test_insert_categories(conn):
+    cat_1 = {"id": 5, "code": "math", "name": "Math"}
+    cat_2 = {"id": 6, "code": "math.c", "name": "Cooler Math"}
+
+    expected = [
+        [cat_1["id"], cat_1["code"], cat_1["name"]],
+        [cat_2["id"], cat_2["code"], cat_2["name"]],
+    ]
+
+    create_category_table(conn)
+    insert_categories(conn, [cat_1, cat_2])
+
+    actual = conn.run("SELECT * FROM Category;")
+
+    assert actual == expected
+
+
+def test_insert_categories_errors_with_duplicate_id(conn):
+    cat_1 = {"id": 5, "code": "eng", "name": "Math"}
+    cat_2 = {"id": 5, "code": "mat", "name": "English"}
+
+    create_category_table(conn)
+    with pytest.raises(DatabaseError):
+        insert_categories(conn, [cat_1, cat_2])
+
+
+def test_insert_categories_errors_with_duplicate_code(conn):
+    cat_1 = {"id": 5, "code": "lang/1", "name": "Spanish"}
+    cat_2 = {"id": 6, "code": "lang/1", "name": "French"}
+
+    create_category_table(conn)
+    with pytest.raises(DatabaseError):
+        insert_categories(conn, [cat_1, cat_2])

@@ -130,3 +130,38 @@ def update_article(
         created_at=created_at,
         updated_at=updated_at,
     )
+
+
+def create_category_table(conn: Connection):
+    """
+    Builds the Category reference table.
+
+    Schema:
+        id:             INTEGER PK
+        code:           VARCHAR(20)
+        name:           VARCHAR(50)
+
+    Fails silently if the table already exists.
+    """
+
+    query_str = (
+        "CREATE TABLE IF NOT EXISTS Category ("
+        "   id             INTEGER PRIMARY KEY,"
+        "   code           VARCHAR(20) UNIQUE,"
+        "   name           VARCHAR(50)"
+        ");"
+    )
+
+    conn.run(query_str)
+
+
+def insert_categories(conn: Connection, categories: list[dict]):
+    """
+    Inserts a list of categories as records into the Category table.
+    Input must be provided as a list of dicts, with keys 'id', 'code', and 'name'.
+    """
+
+    query_str = "INSERT INTO Category (id, code, name) VALUES (:id, :code, :name);"
+
+    for cat in categories:
+        conn.run(query_str, id=cat["id"], code=cat["code"], name=cat["name"])

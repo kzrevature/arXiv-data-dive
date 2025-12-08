@@ -1,0 +1,467 @@
+# sourced from https://arxiv.org/category_taxonomy
+
+- id: 0
+  code: cs.AI
+  name: Artificial Intelligence
+- id: 1
+  code: cs.AR
+  name: Hardware Architecture
+- id: 2
+  code: cs.CC
+  name: Computational Complexity
+- id: 3
+  code: cs.CE
+  name: Computational Engineering, Finance, and Science
+- id: 4
+  code: cs.CG
+  name: Computational Geometry
+- id: 5
+  code: cs.CL
+  name: Computation and Language
+- id: 6
+  code: cs.CR
+  name: Cryptography and Security
+- id: 7
+  code: cs.CV
+  name: Computer Vision and Pattern Recognition
+- id: 8
+  code: cs.CY
+  name: Computers and Society
+- id: 9
+  code: cs.DB
+  name: Databases
+- id: 10
+  code: cs.DC
+  name: Distributed, Parallel, and Cluster Computing
+- id: 11
+  code: cs.DL
+  name: Digital Libraries
+- id: 12
+  code: cs.DM
+  name: Discrete Mathematics
+- id: 13
+  code: cs.DS
+  name: Data Structures and Algorithms
+- id: 14
+  code: cs.ET
+  name: Emerging Technologies
+- id: 15
+  code: cs.FL
+  name: Formal Languages and Automata Theory
+- id: 16
+  code: cs.GL
+  name: General Literature
+- id: 17
+  code: cs.GR
+  name: Graphics
+- id: 18
+  code: cs.GT
+  name: Computer Science and Game Theory
+- id: 19
+  code: cs.HC
+  name: Human-Computer Interaction
+- id: 20
+  code: cs.IR
+  name: Information Retrieval
+- id: 21
+  code: cs.IT
+  name: Information Theory
+- id: 22
+  code: cs.LG
+  name: Machine Learning
+- id: 23
+  code: cs.LO
+  name: Logic in Computer Science
+- id: 24
+  code: cs.MA
+  name: Multiagent Systems
+- id: 25
+  code: cs.MM
+  name: Multimedia
+- id: 26
+  code: cs.MS
+  name: Mathematical Software
+- id: 27
+  code: cs.NA
+  name: Numerical Analysis
+- id: 28
+  code: cs.NE
+  name: Neural and Evolutionary Computing
+- id: 29
+  code: cs.NI
+  name: Networking and Internet Architecture
+- id: 30
+  code: cs.OH
+  name: Other Computer Science
+- id: 31
+  code: cs.OS
+  name: Operating Systems
+- id: 32
+  code: cs.PF
+  name: Performance
+- id: 33
+  code: cs.PL
+  name: Programming Languages
+- id: 34
+  code: cs.RO
+  name: Robotics
+- id: 35
+  code: cs.SC
+  name: Symbolic Computation
+- id: 36
+  code: cs.SD
+  name: Sound
+- id: 37
+  code: cs.SE
+  name: Software Engineering
+- id: 38
+  code: cs.SI
+  name: Social and Information Networks
+- id: 39
+  code: cs.SY
+  name: Systems and Control
+- id: 40
+  code: econ.EM
+  name: Econometrics
+- id: 41
+  code: econ.GN
+  name: General Economics
+- id: 42
+  code: econ.TH
+  name: Theoretical Economics
+- id: 43
+  code: eess.AS
+  name: Audio and Speech Processing
+- id: 44
+  code: eess.IV
+  name: Image and Video Processing
+- id: 45
+  code: eess.SP
+  name: Signal Processing
+- id: 46
+  code: eess.SY
+  name: Systems and Control
+- id: 47
+  code: math.AC
+  name: Commutative Algebra
+- id: 48
+  code: math.AG
+  name: Algebraic Geometry
+- id: 49
+  code: math.AP
+  name: Analysis of PDEs
+- id: 50
+  code: math.AT
+  name: Algebraic Topology
+- id: 51
+  code: math.CA
+  name: Classical Analysis and ODEs
+- id: 52
+  code: math.CO
+  name: Combinatorics
+- id: 53
+  code: math.CT
+  name: Category Theory
+- id: 54
+  code: math.CV
+  name: Complex Variables
+- id: 55
+  code: math.DG
+  name: Differential Geometry
+- id: 56
+  code: math.DS
+  name: Dynamical Systems
+- id: 57
+  code: math.FA
+  name: Functional Analysis
+- id: 58
+  code: math.GM
+  name: General Mathematics
+- id: 59
+  code: math.GN
+  name: General Topology
+- id: 60
+  code: math.GR
+  name: Group Theory
+- id: 61
+  code: math.GT
+  name: Geometric Topology
+- id: 62
+  code: math.HO
+  name: History and Overview
+- id: 63
+  code: math.IT
+  name: Information Theory
+- id: 64
+  code: math.KT
+  name: K-Theory and Homology
+- id: 65
+  code: math.LO
+  name: Logic
+- id: 66
+  code: math.MG
+  name: Metric Geometry
+- id: 67
+  code: math.MP
+  name: Mathematical Physics
+- id: 68
+  code: math.NA
+  name: Numerical Analysis
+- id: 69
+  code: math.NT
+  name: Number Theory
+- id: 70
+  code: math.OA
+  name: Operator Algebras
+- id: 71
+  code: math.OC
+  name: Optimization and Control
+- id: 72
+  code: math.PR
+  name: Probability
+- id: 73
+  code: math.QA
+  name: Quantum Algebra
+- id: 74
+  code: math.RA
+  name: Rings and Algebras
+- id: 75
+  code: math.RT
+  name: Representation Theory
+- id: 76
+  code: math.SG
+  name: Symplectic Geometry
+- id: 77
+  code: math.SP
+  name: Spectral Theory
+- id: 78
+  code: math.ST
+  name: Statistics Theory
+- id: 79
+  code: astro-ph.CO
+  name: Cosmology and Nongalactic Astrophysics
+- id: 80
+  code: astro-ph.EP
+  name: Earth and Planetary Astrophysics
+- id: 81
+  code: astro-ph.GA
+  name: Astrophysics of Galaxies
+- id: 82
+  code: astro-ph.HE
+  name: High Energy Astrophysical Phenomena
+- id: 83
+  code: astro-ph.IM
+  name: Instrumentation and Methods for Astrophysics
+- id: 84
+  code: astro-ph.SR
+  name: Solar and Stellar Astrophysics
+- id: 85
+  code: cond-mat.dis-nn
+  name: Disordered Systems and Neural Networks
+- id: 86
+  code: cond-mat.mes-hall
+  name: Mesoscale and Nanoscale Physics
+- id: 87
+  code: cond-mat.mtrl-sci
+  name: Materials Science
+- id: 88
+  code: cond-mat.other
+  name: Other Condensed Matter
+- id: 89
+  code: cond-mat.quant-gas
+  name: Quantum Gases
+- id: 90
+  code: cond-mat.soft
+  name: Soft Condensed Matter
+- id: 91
+  code: cond-mat.stat-mech
+  name: Statistical Mechanics
+- id: 92
+  code: cond-mat.str-el
+  name: Strongly Correlated Electrons
+- id: 93
+  code: cond-mat.supr-con
+  name: Superconductivity
+- id: 94
+  code: gr-qc
+  name: General Relativity and Quantum Cosmology
+- id: 95
+  code: hep-ex
+  name: High Energy Physics - Experiment
+- id: 96
+  code: hep-lat
+  name: High Energy Physics - Lattice
+- id: 97
+  code: hep-ph
+  name: High Energy Physics - Phenomenology
+- id: 98
+  code: hep-th
+  name: High Energy Physics - Theory
+- id: 99
+  code: math-ph
+  name: Mathematical Physics
+- id: 100
+  code: nlin.AO
+  name: Adaptation and Self-Organizing Systems
+- id: 101
+  code: nlin.CD
+  name: Chaotic Dynamics
+- id: 102
+  code: nlin.CG
+  name: Cellular Automata and Lattice Gases
+- id: 103
+  code: nlin.PS
+  name: Pattern Formation and Solitons
+- id: 104
+  code: nlin.SI
+  name: Exactly Solvable and Integrable Systems
+- id: 105
+  code: nucl-ex
+  name: Nuclear Experiment
+- id: 106
+  code: nucl-th
+  name: Nuclear Theory
+- id: 107
+  code: physics.acc-ph
+  name: Accelerator Physics
+- id: 108
+  code: physics.ao-ph
+  name: Atmospheric and Oceanic Physics
+- id: 109
+  code: physics.app-ph
+  name: Applied Physics
+- id: 110
+  code: physics.atm-clus
+  name: Atomic and Molecular Clusters
+- id: 111
+  code: physics.atom-ph
+  name: Atomic Physics
+- id: 112
+  code: physics.bio-ph
+  name: Biological Physics
+- id: 113
+  code: physics.chem-ph
+  name: Chemical Physics
+- id: 114
+  code: physics.class-ph
+  name: Classical Physics
+- id: 115
+  code: physics.comp-ph
+  name: Computational Physics
+- id: 116
+  code: physics.data-an
+  name: Data Analysis, Statistics and Probability
+- id: 117
+  code: physics.ed-ph
+  name: Physics Education
+- id: 118
+  code: physics.flu-dyn
+  name: Fluid Dynamics
+- id: 119
+  code: physics.gen-ph
+  name: General Physics
+- id: 120
+  code: physics.geo-ph
+  name: Geophysics
+- id: 121
+  code: physics.hist-ph
+  name: History and Philosophy of Physics
+- id: 122
+  code: physics.ins-det
+  name: Instrumentation and Detectors
+- id: 123
+  code: physics.med-ph
+  name: Medical Physics
+- id: 124
+  code: physics.optics
+  name: Optics
+- id: 125
+  code: physics.plasm-ph
+  name: Plasma Physics
+- id: 126
+  code: physics.pop-ph
+  name: Popular Physics
+- id: 127
+  code: physics.soc-ph
+  name: Physics and Society
+- id: 128
+  code: physics.space-ph
+  name: Space Physics
+- id: 129
+  code: quant-ph
+  name: Quantum Physics
+- id: 130
+  code: q-bio.BM
+  name: Biomolecules
+- id: 131
+  code: q-bio.CB
+  name: Cell Behavior
+- id: 132
+  code: q-bio.GN
+  name: Genomics
+- id: 133
+  code: q-bio.MN
+  name: Molecular Networks
+- id: 134
+  code: q-bio.NC
+  name: Neurons and Cognition
+- id: 135
+  code: q-bio.OT
+  name: Other Quantitative Biology
+- id: 136
+  code: q-bio.PE
+  name: Populations and Evolution
+- id: 137
+  code: q-bio.QM
+  name: Quantitative Methods
+- id: 138
+  code: q-bio.SC
+  name: Subcellular Processes
+- id: 139
+  code: q-bio.TO
+  name: Tissues and Organs
+- id: 140
+  code: q-fin.CP
+  name: Computational Finance
+- id: 141
+  code: q-fin.EC
+  name: Economics
+- id: 142
+  code: q-fin.GN
+  name: General Finance
+- id: 143
+  code: q-fin.MF
+  name: Mathematical Finance
+- id: 144
+  code: q-fin.PM
+  name: Portfolio Management
+- id: 145
+  code: q-fin.PR
+  name: Pricing of Securities
+- id: 146
+  code: q-fin.RM
+  name: Risk Management
+- id: 147
+  code: q-fin.ST
+  name: Statistical Finance
+- id: 148
+  code: q-fin.TR
+  name: Trading and Market Microstructure
+- id: 149
+  code: stat.AP
+  name: Applications
+- id: 150
+  code: stat.CO
+  name: Computation
+- id: 151
+  code: stat.ME
+  name: Methodology
+- id: 152
+  code: stat.ML
+  name: Machine Learning
+- id: 153
+  code: stat.OT
+  name: Other Statistics
+- id: 154
+  code: stat.TH
+  name: Statistics Theory
