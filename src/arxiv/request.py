@@ -1,10 +1,7 @@
-import logging
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
 import requests
-
-LOG = logging.getLogger()
 
 # hardcoded cap on the max_results param in API queries
 # the API can technically support up to 30000 but smaller values run faster and are easier to test
@@ -24,14 +21,13 @@ def build_arxiv_query_url(
 
     if max_results > API_RESULTS_CAP:
         raise ValueError(
-            f"max_results value of {max_results} exceeds the maximum {API_RESULTS_CAP}"
+            f"arXiv API max_results value of {max_results} exceeds the cap {API_RESULTS_CAP}"
         )
 
     arxiv_api_base_url = "http://export.arxiv.org/api/query"
 
     if end_time < start_time:
-        error_msg = "invalid time range (end_time < start_time)"
-        LOG.warning(error_msg)
+        error_msg = "arXiv API invalid time range (end_time < start_time)"
         raise ValueError(error_msg)
 
     time_fmt = "%Y%m%d%H%M"

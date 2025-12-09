@@ -222,12 +222,3 @@ def test_parse_entry_to_article_success(sample_arxiv_xml_root):
         )
         for cat in article.categories
     )
-
-
-# TODO: write these tests, they need a corrupted XML
-def test_parse_entry_to_article_rejects_invalid_timestamps():
-    pass
-
-
-def test_parse_entry_to_article_rejects_invalid_id():
-    pass

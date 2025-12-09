@@ -6,37 +6,19 @@ from db.connection import Connection
 PG_TIME_FMT = "%Y-%m-%d %H:%M:%S"
 
 
-def drop_article_table(conn: Connection):
+def drop_all_tables(conn: Connection):
     """
-    Drops the Article table.
+    Drops the Article, Category, and Keyword dimension tables, as well as the
+    Article_Category and KeywordOccurrence tables.
 
     Fails silently (no-op) if the table does not exist.
     """
 
-    query_str = "DROP TABLE IF EXISTS Article CASCADE;"
-    conn.run(query_str)
-
-
-def drop_category_table(conn: Connection):
-    """
-    Drops the Category table.
-
-    Fails silently (no-op) if the table does not exist.
-    """
-
-    query_str = "DROP TABLE IF EXISTS Category CASCADE;"
-    conn.run(query_str)
-
-
-def drop_keyword_table(conn: Connection):
-    """
-    Drops the Keyword table.
-
-    Fails silently (no-op) if the table does not exist.
-    """
-
-    query_str = "DROP TABLE IF EXISTS Keyword CASCADE;"
-    conn.run(query_str)
+    conn.run("DROP TABLE IF EXISTS Article_Category CASCADE;")
+    conn.run("DROP TABLE IF EXISTS KeywordOccurrence CASCADE;")
+    conn.run("DROP TABLE IF EXISTS Article;")
+    conn.run("DROP TABLE IF EXISTS Category;")
+    conn.run("DROP TABLE IF EXISTS Keyword CASCADE;")
 
 
 # creates Article table with the columns shown below

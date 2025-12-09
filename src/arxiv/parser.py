@@ -1,12 +1,9 @@
-import logging
 import re
 from datetime import datetime
 from typing import NamedTuple
 from xml.etree import ElementTree as ET
 
 from article import Article
-
-LOG = logging.getLogger()
 
 # namespace which prefixes every element in the xml file
 XML_NS = "{http://www.w3.org/2005/Atom}"
@@ -42,7 +39,19 @@ def extract_total_results(xml_response: ET.Element) -> int:
             return int(child.text)
 
 
-def parse_entry_to_article(node: ET.Element) -> ArticleParseResult:
+def extract_updated_at_from_entry(node: ET.Element) -> datetime | None:
+    """
+    Takes as input an XML <entry> element representing an arXiv article, and extracts
+    the relevant fields into an Article object.
+    """
+    for child in node:
+        if child.tag.endswith("updated"):
+            return datetime.strptime(child.text, XML_TIME_FMT)
+
+    return None
+
+
+def parse_entry_to_article(node: ET.Element) -> Article:
     """
     Takes as input an XML <entry> element representing an arXiv article, and extracts
     the relevant fields into an Article object.
@@ -51,11 +60,7 @@ def parse_entry_to_article(node: ET.Element) -> ArticleParseResult:
     for child in node:
         if child.tag.endswith("id"):
             url = child.text
-            try:
-                id_ = parse_arxiv_url_to_id(url)
-            except ValueError:
-                LOG.warning(f"failed to parse arXiv entry at url: {url}")
-                return ArticleParseResult(False, None, url)
+            id_ = parse_arxiv_url_to_id(url)
         elif child.tag.endswith("title"):
             title = child.text
         elif child.tag.endswith("published"):
@@ -68,23 +73,12 @@ def parse_entry_to_article(node: ET.Element) -> ArticleParseResult:
             abstract = child.text
 
     if created_at > updated_at:
-        LOG.warning(
-            f"arXiv entry has invalid timestamps: published > updated for id {id_}"
+        raise ValueError(
+            "arXiv entry has invalid timestamps: "
+            f"published_at {created_at} > updated_at {updated_at}"
         )
-        return ArticleParseResult(False, None, url)
 
-    return ArticleParseResult(
-        True,
-        Article(
-            id_,
-            title,
-            created_at,
-            updated_at,
-            categories,
-            abstract,
-        ),
-        url,
-    )
+    return Article(id_, title, created_at, updated_at, categories, abstract)
 
 
 def validate_arxiv_id_old_fmt(id_: str) -> bool:
@@ -127,7 +121,7 @@ def validate_arxiv_id_new_fmt(id_: str) -> bool:
     return True
 
 
-def parse_arxiv_url_to_id(article_url):
+def parse_arxiv_url_to_id(article_url) -> str:
     """
     Extracts the unique arXiv identifier for an article based on its abstract url.
     Raises a ValueError if the request is malformed.
@@ -140,7 +134,6 @@ def parse_arxiv_url_to_id(article_url):
     # check prefix
     if not article_url.startswith(arxiv_url_prefix):
         error_message = f"arXiv url is malformed (bad prefix): {article_url}"
-        LOG.warning(error_message)
         raise ValueError(error_message)
     article_id = article_url[len(arxiv_url_prefix) :]
 
@@ -153,6 +146,4 @@ def parse_arxiv_url_to_id(article_url):
     if validate_arxiv_id_new_fmt(article_id) or validate_arxiv_id_old_fmt(article_id):
         return article_id
     else:
-        error_message = f"arXiv url is malformed (bad id): {article_id}"
-        LOG.warning(error_message)
-        raise ValueError(error_message)
+        raise ValueError(f"arXiv url is malformed (bad id): {article_id}")

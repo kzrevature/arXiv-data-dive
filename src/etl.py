@@ -1,12 +1,18 @@
+import traceback
+import xml.etree.ElementTree as ET
 from datetime import datetime
+from uuid import uuid4
 
+from arxiv.parser import parse_entry_to_article
 from db.connection import Pg8000Connection
 from db.queries import select_most_recent_updated_at
-from services.extractors import fetch_articles
+from services.extractors import fetch_article_entries
 from services.sync_article import sync_article
+from utils.logger import LOG
 
 # the first arXiv articles were last updated in 1986
 DEFAULT_BACKFILL_START_DATE = datetime(1986, 1, 1)
+LOG_REJECTED_DIR = "log/rejected"
 
 
 def etl_backfill(backfill_start: datetime, backfill_end: datetime):
@@ -20,14 +26,32 @@ def etl_backfill(backfill_start: datetime, backfill_end: datetime):
     conn = Pg8000Connection()
 
     # extraction loop
-    for article in fetch_articles(backfill_start, backfill_end):
-        # load into db
+    for entry in fetch_article_entries(backfill_start, backfill_end):
+        # parse and validate
+        try:
+            article = parse_entry_to_article(entry)
+        except ValueError:
+            reject_filepath = f"{LOG_REJECTED_DIR}/{str(uuid4())}"
+            LOG.error(
+                f"ERR: Failed to parse record, storing failed xml in {reject_filepath}\n"
+                f"Full trace: {traceback.format_exc()}"
+            )
+            with open(reject_filepath, "w", encoding="utf-8") as f:
+                f.write(ET.tostring(entry, encoding="unicode"))
+            continue
+
+        # transform and persist
         try:
             sync_article(conn, article)
-        # handle failed validation
         except ValueError:
-            # TODO log and handle these errors
-            pass
+            reject_filepath = f"{LOG_REJECTED_DIR}/{str(uuid4())}"
+            LOG.error(
+                f"ERR: Failed to persist record, storing failed xml in {reject_filepath}\n"
+                f"Article id: {article.id}\n"
+                f"Full trace: {traceback.format_exc()}"
+            )
+            with open(reject_filepath, "w", encoding="utf-8") as f:
+                f.write(ET.tostring(entry, encoding="unicode"))
 
     conn.close()
 

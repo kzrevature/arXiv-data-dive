@@ -20,17 +20,20 @@ def sync_article(conn: Connection, article: Article):
     Loads novel article data into the database. Will insert if the article doesn't yet
     exist, update if the article does exist, and error if the changes are not allowed.
     """
+
+    conn.run("START TRANSACTION;")
+
     persisted_article = select_article(conn, article.id)
     if persisted_article:
         # creation date should never change
         if persisted_article.created_at != article.created_at:
             raise ValueError(
-                "error: attempted to modify the publish date of an existing article"
+                "attempted to modify the publish date of an existing article"
             )
         # last updated date should be newer than the most recent timestamp
-        elif persisted_article.updated_at >= article.updated_at:
+        elif persisted_article.updated_at > article.updated_at:
             raise ValueError(
-                "error: attempted to modify the last updated date of an existing "
+                "attempted to modify the last updated date of an existing "
                 "article earlier than the most recent update"
             )
 
@@ -45,6 +48,8 @@ def sync_article(conn: Connection, article: Article):
     # handle category updates
     delete_article_category_for_article(conn, article.id)
     for category in article.categories:
+        if category not in CATEGORY_CODE_TO_ID:
+            raise ValueError(f"invalid article category {category}")
         insert_article_category(conn, article.id, CATEGORY_CODE_TO_ID[category])
 
     # handle keyword updates
@@ -52,3 +57,5 @@ def sync_article(conn: Connection, article: Article):
     keyword_occurences = count_keyword_occurrences(article.abstract)
     for kw_id, total in keyword_occurences.items():
         insert_keyword_occurrence(conn, article.id, kw_id, total)
+
+    conn.run("COMMIT;")
