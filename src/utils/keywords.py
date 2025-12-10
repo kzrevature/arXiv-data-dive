@@ -50,6 +50,9 @@ def build_keyword_to_id_dict():
 
 # map from keyword 'values' to ids
 KEYWORD_TO_ID_DICT = build_keyword_to_id_dict()
+KEYWORD_TO_ID_DICT_TOKENIZED = {
+    tuple(kw.split()): id_ for kw, id_ in KEYWORD_TO_ID_DICT.items()
+}
 
 
 def count_keyword_occurrences(text: str) -> dict[int, int]:
@@ -66,8 +69,7 @@ def count_keyword_occurrences(text: str) -> dict[int, int]:
 
     # iterater through id matching dict
     matches = defaultdict(int)
-    for kw, id_ in KEYWORD_TO_ID_DICT.items():
-        kw_tokens = tuple(kw.split())
+    for kw_tokens, id_ in KEYWORD_TO_ID_DICT_TOKENIZED.items():
         kw_len = len(kw_tokens)
 
         # sliding window
